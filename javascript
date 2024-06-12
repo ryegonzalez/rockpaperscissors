@@ -32,19 +32,19 @@ And if the result is none of these, then it's likely that the person made a mist
 function playRound(computerResult, humanResult) {
     console.log(decision)
     if (computerResult == humanResult) {
-        console.log("Both sides chose " + humanResult + "! It's a draw!")
+        document.getElementById("humanOrComp").innerHTML="Both sides chose " + humanResult + "! It's a draw!"
         decision = 0
     }
     else if ((computerResult == "rock" && humanResult == "paper") || (computerResult == "paper" && humanResult == "scissors") || (computerResult == "scissors" && humanResult == "rock")) {
         decision = 2
-        console.log("You win! The computer chose " + computerResult + "!")
+        document.getElementById("humanOrComp").innerHTML="You win! The computer chose " + computerResult + "!"
     }
     else if ((computerResult == "paper" && humanResult == "rock") || (computerResult == "scissors" && humanResult == "paper") || (computerResult == "rock" && humanResult == "scissors")) {
         decision = 1
-        console.log("You lose! The computer chose " + computerResult + "!")
+        document.getElementById("humanOrComp").innerHTML="You lose! The computer chose " + computerResult + "!"
     }
     else
-        console.log("Nobody wins or loses because an error occurred. So sorry!");
+        document.getElementById("humanOrComp").innerHTML="Nobody wins or loses because an error occurred. So sorry!";
 }
 
 /*
@@ -72,23 +72,64 @@ function decide() {
 /*
 A function that solves the problem of the fact you can't call multiple functions to perform in a certain order multiple times in one function, so if this function were called it'd run them all in the correct order, but only once
 */
-function playGame() {
-    getComputerChoice();
-    var computerResult = getComputerChoice();
-    console.log(computerResult);
-    var humanResult = getHumanChoice();
-    console.log(humanResult);
-    playRound(computerResult, humanResult);
-    decide(humanScore, computerScore);
-}
+
 
 /*
-A function that runs the function that runs the other functions multiple times.
-*/
+A function that runs the function that runs the other functions multiple times. TEMP REMOVAL
+
 function playGames() {
     for (var i = 0; i < 5; i++) playGame()
 }
+*/
+function liveHumanScore() {
+    var hScore = humanScore
+    document.getElementById("human").innerHTML = hScore
+    if (hScore >= 5) {
+        document.getElementById("humanOrComp").innerHTML="End round!"
+        document.getElementById("winOrLose").innerHTML="You won the round! Refresh to retry!"
+    }
+}
 
-console.log(playGames())
-console.log(humanScore)
-console.log(computerScore)
+function liveComputerScore() {
+    var cScore = computerScore
+    document.getElementById("computer").innerHTML = cScore
+    if (cScore >= 5) {
+        document.getElementById("humanOrComp").innerHTML="End round!"
+        document.getElementById("winOrLose").innerHTML="The computer won the round! Refresh to retry!"
+    }
+}
+
+function liveScores() {
+    liveHumanScore();
+    liveComputerScore();
+}
+
+const rock = document.querySelector('#buttonRock');
+rock.addEventListener('click', () => {
+    getComputerChoice();
+    var computerResult = getComputerChoice();
+    var humanResult = "rock";
+    playRound(computerResult, humanResult);
+    decide(humanScore, computerScore);
+    liveScores();
+})
+
+const paper = document.querySelector('#buttonPaper');
+paper.addEventListener('click', () => {
+    getComputerChoice();
+    var computerResult = getComputerChoice();
+    var humanResult = "paper";
+    playRound(computerResult, humanResult);
+    decide(humanScore, computerScore);
+    liveScores();
+})
+
+const scissors = document.querySelector('#buttonScissors');
+scissors.addEventListener('click', () => {
+    getComputerChoice();
+    var computerResult = getComputerChoice();
+    var humanResult = "scissors";
+    playRound(computerResult, humanResult);
+    decide(humanScore, computerScore);
+    liveScores();
+})
